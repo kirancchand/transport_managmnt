@@ -71,6 +71,10 @@ $route['menu/assign_bus_to_route'] = 'menuController/assign_bus_to_route';
 $route['menu/view_user'] = 'menuController/view_user';
 $route['menu/view_bus'] = 'menuController/view_bus';
 
+$route['menu/addroute'] = 'dataController/addroute';
+$route['menu/addbus'] = 'dataController/addbus';
+$route['menu/assignBusroute'] = 'dataController/addassignBusroute';
+
 $route['menu/invoice'] = 'menuController/invoice';
 $route['menu/profile'] = 'menuController/profile';
 $route['menu/login'] = 'menuController/login';
@@ -79,3 +83,6 @@ $route['menu/f404'] = 'menuController/f404';
 $route['menu/f500'] = 'menuController/f500';
 $route['menu/blank'] = 'menuController/blank';
 $route['menu/pace'] = 'menuController/pace';
+
+$route['menudata/trial'] = 'dataController/trial';
+$route['datacollection/datatablegetconnectivitydata'] = 'dataController/datatablegetconnectivitydata';

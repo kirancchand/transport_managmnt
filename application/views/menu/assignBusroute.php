@@ -89,47 +89,34 @@ $this->load->view('components/sidemenu');
               <i class="fa fa-times"></i></button>
           </div>
         </div>
+        <form id='assignbusrouteform' name='assignbusrouteform'> 
         <div class="box-body">
             <div class="row">
             <div class="col-xs-5">
                <label>Select Bus Number</label>
-                <select class="form-control select2" style="width: 100%;">
-                  <option selected="selected">Alabama</option>
-                  <option>Alaska</option>
-                  <option>California</option>
-                  <option>Delaware</option>
-                  <option>Tennessee</option>
-                  <option>Texas</option>
-                  <option>Washington</option>
+                <select  id="busno" name="busno"  class="form-control select2" style="width: 100%;">
+                  <option selected="selected" value='0'>Alabama</option>
+                  <option value='1'>Alaska</option>
+                  <option value='2'>California</option>
+                  <option value='3'>Delaware</option>
+                  <option value='4'>Tennessee</option>
+                  <option value='5'>Texas</option>
+                  <option value='6'>Washington</option>
                 </select>
             </div>
             </div>
-              <div class="row">
-              <div class="col-xs-5">
-               <label>Select Bus Route</label>
-                <select class="form-control select2" style="width: 100%;">
-                  <option selected="selected">Alabama</option>
-                  <option>Alaska</option>
-                  <option>California</option>
-                  <option>Delaware</option>
-                  <option>Tennessee</option>
-                  <option>Texas</option>
-                  <option>Washington</option>
-                </select>
-              </div>
-              </div>
               <div class="row">
               <div class="col-xs-5">
               <div class="form-group">
-                <label>Select Stops</label>
-                <select class="form-control select2" multiple="multiple" data-placeholder="Select a State" style="width: 100%;">
-                  <option>Alabama</option>
-                  <option>Alaska</option>
-                  <option>California</option>
-                  <option>Delaware</option>
-                  <option>Tennessee</option>
-                  <option>Texas</option>
-                  <option>Washington</option>
+                <label>Select Place</label>
+                <select id='routes[]' name='routes[]'  class="form-control select2" multiple="multiple" data-placeholder="Select routes" style="width: 100%;">
+                  <option value="0">--please select--</option>
+                  <option value="1">VEMBAYAM</option>
+                  <option value="2">place 2</option>
+                  <option value="3">place 3</option>
+                  <option value="4">place 4</option>
+                  <option value="5">place 5</option>
+                  <option value="6">place 6</option>
                 </select>
               </div>
               </div>
@@ -143,7 +130,7 @@ $this->load->view('components/sidemenu');
                     <div class="form-group">
                       <label>Journey Start Time</label>
                       <div class="input-group">
-                        <input type="text" class="form-control timepicker">
+                        <input id='starttime' name='starttime' class="form-control timepicker">
                         <div class="input-group-addon">
                           <i class="fa fa-clock-o"></i>
                         </div>
@@ -165,7 +152,7 @@ $this->load->view('components/sidemenu');
                     <div class="form-group">
                       <label>Journey End Time</label>
                       <div class="input-group">
-                        <input type="text" class="form-control timepicker">
+                        <input id='endtime' name='endtime' type="text" class="form-control timepicker">
                         <div class="input-group-addon">
                           <i class="fa fa-clock-o"></i>
                         </div>
@@ -180,11 +167,12 @@ $this->load->view('components/sidemenu');
                
              
         </div>
+      </form>
         <!-- /.box-body -->
         <div class="box-footer">
          <div class="row">
                   <div class="col-xs-2">
-                  <button type="button" class="btn btn-block btn-primary">Add</button>
+                  <button type="submit" class="btn btn-block btn-primary add_btn">Add</button>
                   </div>
                </div>
         </div>
@@ -236,6 +224,55 @@ $this->load->view('components/sidebarcontroller');
     });
 
   });
+</script>
+<script>
+  $(document).ready(function() {
+
+$('.add_btn').click(function(){
+
+//alert("hyy");
+//alert($('#starttime').val());
+            
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo site_url(); ?>/menu/assignBusroute",
+                    data: $('#assignbusrouteform').serialize(),
+                    dataType: "json",
+                    success: function(response){
+                       
+                       console.log(response);
+                       
+                        //console.log(response.status);
+                      /*  if(response==true) //if success close modal and reload ajax table
+                          {                     
+                           toastr.success('Added Successfully..!!', 'Success Alert', {timeOut: 2000});
+                           //$('#assignbinmemberform')[0].reset();
+                             $('#bin_number').val('0').trigger("change");
+                             $("#member").multiselect('deselectAll', false);
+                            
+                                  //$("#bin_number")[0].selectedIndex = 0;
+                            
+                           //$("#bin_number").multiselect('clearSelection');
+                          }
+                        else
+                          { 
+                            toastr.success('Some Error Happened..!!', 'Danger Alert', {timeOut: 2000});
+
+                          }
+*/                         
+                       
+                        },
+                        error: function(xhr, textStatus, error) {
+                          console.log(xhr.statusText);
+                          console.log(textStatus);
+                          console.log(error);
+
+
+                        }
+                    })
+          
+          });
+});
 </script>
 </body>
 </html>

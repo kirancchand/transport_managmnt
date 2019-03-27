@@ -34,6 +34,9 @@
           </a>
           <ul class="treeview-menu">
             <li>
+              <a href="<?php echo site_url('menudata/trial'); ?>"><i class="fa fa-circle-o"></i>Trial</a>
+            </li>
+            <li>
               <a href="<?php echo site_url('menu/add_bus_no'); ?>"><i class="fa fa-circle-o"></i> Add Bus No</a></li>
             <li>
               <a href="<?php echo site_url('menu/add_route'); ?>"><i class="fa fa-circle-o"></i> Add Route</a>

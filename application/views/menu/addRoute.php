@@ -68,29 +68,11 @@ $this->load->view('components/sidemenu');
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form class="form-horizontal">
+            <form class="form-horizontal" method="post" action="<?php echo site_url('menu/addroute'); ?>"> 
               <div class="box-body">
                 <div class="form-group">
-                  <label for="inputEmail3" class="col-sm-2 control-label">Enter Start place</label>
-
-                  <div class="col-sm-10">
-                    <input type="email" class="form-control" id="inputEmail3" placeholder="Enter Start place">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="inputPassword3" class="col-sm-2 control-label">Enter via place</label>
-
-                  <div class="col-sm-10">
-                    <input type="password" class="form-control" id="inputPassword3" placeholder="Enter via place">
-                  </div>
-                </div>
-
-
-                <div class="form-group">
-                  <label for="inputPassword3" class="col-sm-2 control-label">Enter end place</label>
-
-                  <div class="col-sm-10">
-                    <input type="password" class="form-control" id="inputPassword3" placeholder="Enter end place">
+                  <div class="col-sm-5">
+                    <b>Enter Place</b> <input type="text" id="inputstart_place" name="place" class="form-control" type="text" placeholder="Enter Place">
                   </div>
                 </div>
 

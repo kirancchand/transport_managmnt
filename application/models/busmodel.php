@@ -1,18 +1,19 @@
 <?php 
-   class UserModel extends CI_Model {
+   class busmodel extends CI_Model {
 
-    var $table = 'usertbl';
-    var $column_order = array('slno','emailid','password'); //set column field database for datatable orderable
-    var $column_search = array('slno','emailid','password'); //set column field database for datatable searchable just firstname , lastname , address are searchable
-    var $order = array('slno' => 'desc'); // default order 
-	
+/*
+    var $table = 'routetbl';
+    var $column_order = array('r_slno','start_place','via_place','end_place'); //set column field database for datatable orderable
+    var $column_search = array('r_slno','start_place','via_place','end_place'); //set column field database for datatable searchable just firstname , lastname , address are searchable
+    var $order = array('r_slno' => 'desc'); // default order 
+  
+	*/
       function __construct() { 
          parent::__construct(); 
-      }
+      } 
 
-
-
-      public function get_datatables()
+/*
+  public function get_datatables()
        {
            $this->_get_datatables_query();
            if(intval($this->input->get("length"))!= -1)
@@ -21,7 +22,7 @@
            return $query->result();
        }
 
-       private function _get_datatables_query()
+ private function _get_datatables_query()
       {
          
         $this->db->from($this->table);
@@ -74,53 +75,74 @@
        }
 
 
+*/
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-       
-   
-      public function register($data) { 
-         if ($this->db->insert("usertbl", $data)) { 
+          public function addbus($data) { 
+         if ($this->db->insert("bustbl", $data)) { 
             return true; 
-         } 
+       
+        }
+      }
+
+        public function addroute($data) { 
+         if ($this->db->insert("routetbl", $data)) { 
+            return true; 
+         }  
       } 
 
-      public function login($data) {
+      public function assignroute($data) { 
+         if ($this->db->insert("busrouteassigntbl", $data)) { 
+            return true; 
+         }  
+      } 
 
-         $condition = "emailid =" . "'" . $data['emailid'] . "' AND " . "password =" . "'" . $data['password'] . "'";
-         $this->db->select('*');
-         $this->db->from('usertbl');
-         $this->db->where($condition);
-         $this->db->limit(1);
-         $query = $this->db->get();
-            if ($query->num_rows() == 1) 
-            {
-            return true;
-            } 
-            else
-            {
-            return false;
-            }
 
-         }
-   
-   } 
+
+      public function trial($data) { 
+         if ($this->db->insert("routetbl", $data)) { 
+            return true; 
+         }  
+      } 
+
+      public function bustime_data($data) { 
+
+         if ($this->db->insert("bustimeassigntbl", $data)) { 
+           $insertid=$this->db->insert_id();
+            return $insertid; 
+         }  
+      }
+
+
+       public function busrouteassign_data($data)
+      {
+        $f_bt_slno = $data['f_bt_slno'];
+       
+        foreach( $data['f_r_slno']as $key => $value){
+
+          $data = array( 
+            'f_bt_slno' => $f_bt_slno,
+            'f_r_slno' => $value, 
+            ); 
+         
+          //print_r($data);
+          $this->db->insert("busrouteassigntbl", $data);
+           
+        }
+        return true;
+        /*$query = $this->db->query('SELECT * FROM connectivity_tbl');
+         return $query->result();*/
+        
+      }
+
+
+
+
+
+
+
+
+
+
+     } 
+    
 ?> 

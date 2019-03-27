@@ -59,12 +59,14 @@ $this->load->view('components/sidemenu');
     </section>
 
     <!-- Main content -->
-    <section class="content">
+     <section class="content">
 
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
           <h3 class="box-title">Add Bus Number</h3>
+
+     <form method="post" action="<?php echo site_url('menu/addbus'); ?>"> 
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -75,10 +77,11 @@ $this->load->view('components/sidemenu');
         </div>
         <div class="box-body">
           <div class="col-xs-5">
-              <input class="form-control" type="text" placeholder="Enter Bus Number">     
+              <input type="bus_no" id="inputbus_no" name="bus_no" class="form-control" type="text" placeholder="Enter Bus Number">
+                    
           </div>
           <div class="col-xs-2">
-          <button type="button" class="btn btn-block btn-primary">Add</button>
+          <button type="submit" class="btn btn-block btn-primary ">Add</button>
           </div>
         </div>
         <!-- /.box-body -->
@@ -88,6 +91,7 @@ $this->load->view('components/sidemenu');
         <!-- /.box-footer-->
       </div>
       <!-- /.box -->
+    </form>
 
     </section>
     <!-- /.content -->
