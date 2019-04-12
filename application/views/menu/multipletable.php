@@ -523,19 +523,23 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <table id="example1" class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                  <th>SLNO</th>
-                  <th>EMAILID</th>
-                  <th>PASSWORD</th>
-                  <th>ACTION</th> 
-                </tr>
-                </thead>
-                <tbody>
-                </tbody>
-                
-              </table>
+       <h2>Product List</h2>
+    <button class="btn btn-success pull-right" data-toggle="modal" data-target="#myModalAdd">Add New</button>
+    <table class="table table-striped" id="mytable">
+      <thead>
+        <tr>
+          <th>Product Code</th>
+          <th>Product Name</th>
+          <th>Price</th>
+          <th>Category</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+    </table>
+
+
+
+    
             </div>
             <!-- /.box-body -->
           </div>
@@ -546,6 +550,12 @@
       <!-- /.row -->
     </section>
     <!-- /.content -->
+
+
+
+
+
+
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
@@ -585,9 +595,59 @@
   $(document).ready(function() {
 
 
+//alert("hyyy");
 
+$.fn.dataTableExt.oApi.fnPagingInfo = function(oSettings)
+      {
+          return {
+              "iStart": oSettings._iDisplayStart,
+              "iEnd": oSettings.fnDisplayEnd(),
+              "iLength": oSettings._iDisplayLength,
+              "iTotal": oSettings.fnRecordsTotal(),
+              "iFilteredTotal": oSettings.fnRecordsDisplay(),
+              "iPage": Math.ceil(oSettings._iDisplayStart / oSettings._iDisplayLength),
+              "iTotalPages": Math.ceil(oSettings.fnRecordsDisplay() / oSettings._iDisplayLength)
+          };
+      };
+ 
+      var table = $("#mytable").dataTable({
+          initComplete: function() {
+              var api = this.api();
+              $('#mytable_filter input')
+                  .off('.DT')
+                  .on('input.DT', function() {
+                      api.search(this.value).draw();
+              });
+          },
+              oLanguage: {
+              sProcessing: "loading..."
+          },
+              processing: true,
+              serverSide: true,
+              ajax: {
+                "url": "<?php echo site_url("datacollection/datatablegetbusconnectivitydatatest")?>",
+                "type": "POST"
+              },
+                    columns: [
+                                                {"data": "product_code"},
+                                                {"data": "product_name"},
+                                                //render number format for price
+                        {"data": "product_price", render: $.fn.dataTable.render.number(',', '.', '')},
+                        {"data": "category_name"},
+                        {"data": "view"}
+                  ],
+                order: [[1, 'asc']],
+          rowCallback: function(row, data, iDisplayIndex) {
+              var info = this.fnPagingInfo();
+              var page = info.iPage;
+              var length = info.iLength;
+              $('td:eq(0)', row).html();
+          }
+ 
+      });
 
 //datatables
+/*
      $('#example1').DataTable({ 
  
         "processing": true, //Feature control the processing indicator.
@@ -611,7 +671,7 @@
  
     });
 
-
+*/
 
 
 

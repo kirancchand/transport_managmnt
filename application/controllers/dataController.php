@@ -22,16 +22,24 @@ class dataController extends CI_Controller {
          $this->load->helper('url'); 
          $this->load->database();  
          $this->load->model('UserModel'); 
-        $this->load->model('busmodel');
-         //$this->load->library('session');
-
-
-        
+         $this->load->model('busmodel');
+         $this->load->library('datatables'); //load library ignited-dataTable
   
   
          //$this->load->library('Datatables','session');
       } 
-    
+
+ public function get_place()
+ {
+  $bus_no=1000;
+   $stops=$this->busmodel->get_stops($bus_no);
+   echo json_encode($stops);
+ }
+  function get_product_json() { //get product data and encode to be JSON object
+      //header('Content-Type: application/json');
+      echo $this->busmodel->get_all_product();
+  }
+ 
 	public function datatablegetconnectivitydata()
 	{
 
@@ -43,28 +51,42 @@ class dataController extends CI_Controller {
           $length = intval($this->input->get("length"));
 
 
-         $connectivity_data=$this->UserModel->get_datatables();
+         //$connectivity_data=$this->UserModel->get_datatables();
+         $connectivity_data=$this->busmodel->get_datatables();
          $data = array();
          $no = $start;
 
 
 		foreach($connectivity_data as $r) {
-          	   		$no++;
-            		$row = array();
+          	   		  $no++;
+            		    $row = array();
                     $row[] = $no;
+                    $row[] = $r->journey_start_time;
+                    $row[] = $r->bus_no;
+                    $row[] = $r->journey_end_time;
+                    $stops=$this->busmodel->get_stops($r->bus_no);
+                    $row[] = $stops;
+                    $row[] = count($stops);
+                    
+
+                    /*$row[] = $r->place;
+                    $row[] = $r->f_r_slno;
+                    $row[] = $r->f_bt_slno;
+                    /*
                     $row[] = $r->emailid;
                     $row[] = $r->password;
+                    $row[] = $r->password;*/
 
                		/*$row[] = '
                   		<button type="button" id="'.$r->id.'" data-toggle="modal" data-target="#myModal" class="btn btn-info updateview_btn">update</button>
                   		<button type="button" id="'.$r->id.'" data-toggle="modal" data-target="#myModal" class="btn btn-default view_btn">view</button>
                   		<button type="button" id="'.$r->id.'"  class="btn btn-danger delete_btn">delete</button
                   		';*/
-                    
+                    /*
                     $row[] = '<button type="button" id="'.$r->slno.'" data-toggle="modal" data-target="#myModal" class="btn btn-info updateview_btn">update</button>
                     <button type="button" id="'.$r->slno.'" data-toggle="modal" data-target="#myModal" class="btn btn-default view_btn">view</button>
                   	<button type="button" id="'.$r->slno.'"  class="btn btn-danger delete_btn">delete</button
-                  		';
+                  		';*/
 
          
                     $data[] = $row;
@@ -77,8 +99,8 @@ class dataController extends CI_Controller {
 
             $output = array(
                         "draw" => $draw,
-                        "recordsTotal" => $this->UserModel->count_all(),
-                        "recordsFiltered" => $this->UserModel->count_filtered(),
+                        "recordsTotal" => $this->busmodel->count_all(),
+                        "recordsFiltered" => $this->busmodel->count_filtered(),
                         "data" => $data,
                 );
  
@@ -199,12 +221,18 @@ class dataController extends CI_Controller {
 
 
 
-public function trial()
+public function singletable()
 	{
 
-       $this->load->view('menu/trial');
+       $this->load->view('menu/singletable');
       
 	}
+public function multipletable()
+  {
+
+       $this->load->view('menu/multipletable');
+      
+  }
 }
 
 

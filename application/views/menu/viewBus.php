@@ -40,7 +40,7 @@
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
-
+  <link rel="stylesheet" href="<?php echo base_url(); ?>public/plugins/datatables/dataTables.bootstrap.css">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <!-- Site wrapper -->
@@ -90,44 +90,22 @@ $this->load->view('components/sidemenu');
           </div>
         </div>
         <div class="box-body">
-           <div class="form-group">
-            <div class="row">
-            <div class="col-xs-5">
-               <label>Select Bus Route</label>
-                <select class="form-control select2" style="width: 100%;">
-                  <option selected="selected">Alabama</option>
-                  <option>Alaska</option>
-                  <option>California</option>
-                  <option>Delaware</option>
-                  <option>Tennessee</option>
-                  <option>Texas</option>
-                  <option>Washington</option>
-                </select>
-            </div>
-            </div>
-          </div>
             <div class="row">
               <div class="col-xs-12">
               <div class="form-group">
-               <table class="table table-bordered">
-                <tr>
+               <table class="table table-bordered" id="mytable">
+                 <thead>
+                  <tr>
                   <th style="width: 10px">slno</th>
-                  <th>Time</th>
+                  <th>Journey start time</th>
                   <th>Bus Number</th>
-                  <th>Via </th>
+                  <th>Journey End Time</th>
                   <th>Stops</th>
-                </tr>
-                <tr>
-                  <td>1.</td>
-                  <td>a@a.com</td>
-                  <td>aa</td>
-                  <td>via place</td>
-                  <td style="width: 300px">
-                      <div class="btn-group">
-                      <button type="button" class="btn btn-info">Click to view Route</button>
-                    </div>
-                  </td>
-                </tr>
+                  </tr>
+                </thead>
+                <tbody>
+        
+                </tbody>
               </table>
             </div>
             </div>
@@ -140,14 +118,8 @@ $this->load->view('components/sidemenu');
         </div>
         <!-- /.box-body -->
         <div class="box-footer clearfix">
-              <ul class="pagination pagination-sm no-margin pull-right">
-                <li><a href="#">&laquo;</a></li>
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">&raquo;</a></li>
-              </ul>
-            </div>
+
+        </div>
         <!-- /.box-footer-->
       </div>
       <!-- /.box -->
@@ -186,6 +158,9 @@ $this->load->view('components/sidebarcontroller');
 <script src="<?php echo base_url(); ?>public/plugins/select2/select2.full.min.js"></script>
 <!-- bootstrap time picker -->
 <script src="<?php echo base_url(); ?>public/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+<!-- DataTables -->
+<script src="<?php echo base_url(); ?>public/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="<?php echo base_url(); ?>public/plugins/datatables/dataTables.bootstrap.min.js"></script>
 <script>
   $(function () {
     //Initialize Select2 Elements
@@ -196,6 +171,72 @@ $this->load->view('components/sidebarcontroller');
     });
 
   });
+
+
+var table;
+  $(document).ready(function() {
+
+
+//alert("hyyy");
+
+$.fn.dataTableExt.oApi.fnPagingInfo = function(oSettings)
+      {
+          return {
+              "iStart": oSettings._iDisplayStart,
+              "iEnd": oSettings.fnDisplayEnd(),
+              "iLength": oSettings._iDisplayLength,
+              "iTotal": oSettings.fnRecordsTotal(),
+              "iFilteredTotal": oSettings.fnRecordsDisplay(),
+              "iPage": Math.ceil(oSettings._iDisplayStart / oSettings._iDisplayLength),
+              "iTotalPages": Math.ceil(oSettings.fnRecordsDisplay() / oSettings._iDisplayLength)
+          };
+      };
+ 
+      var table = $("#mytable").dataTable({
+          initComplete: function() {
+              var api = this.api();
+              $('#mytable_filter input')
+                  .off('.DT')
+                  .on('input.DT', function() {
+                      api.search(this.value).draw();
+              });
+          },
+              oLanguage: {
+              sProcessing: "loading..."
+          },
+              processing: true,
+              serverSide: true,
+              ajax: {
+                "url": "<?php echo site_url("datacollection/datatablegetbusconnectivitydata")?>",
+                "type": "POST"
+              },
+                    columns: [
+                                                {"data": "b_slno"},
+                                                {"data": "journey_start_time"},
+                                                {"data": "bus_no"},
+                                                {"data": "journey_end_time"},
+                                                {"data": "place"}
+                                                //render number format for price
+                        //{"data": "journey_end_time", render: $.fn.dataTable.render.number(',', '.', '')},
+                        //{"data": "view"}
+                  ],
+                order: [[1, 'asc']],
+          rowCallback: function(row, data, iDisplayIndex) {
+              var info = this.fnPagingInfo();
+              var page = info.iPage;
+              var length = info.iLength;
+              $('td:eq(0)', row).html();
+          }
+ 
+      });
+
+
+  });
+
+
+
+
+
 </script>
 </body>
 </html>

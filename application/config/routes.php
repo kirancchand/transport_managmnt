@@ -84,5 +84,14 @@ $route['menu/f500'] = 'menuController/f500';
 $route['menu/blank'] = 'menuController/blank';
 $route['menu/pace'] = 'menuController/pace';
 
-$route['menudata/trial'] = 'dataController/trial';
+$route['menudata/singletable'] = 'dataController/singletable';
 $route['datacollection/datatablegetconnectivitydata'] = 'dataController/datatablegetconnectivitydata';
+
+$route['menudata/multipletable'] = 'Crud';
+$route['datacollection/datatablegetbusconnectivitydatatest'] = 'Crud/get_product_json';
+
+$route['datacollection/datatablegetbusconnectivitydata'] = 'dataController/get_product_json';
+
+
+$route['menudata/get_place'] = 'dataController/get_place';
+

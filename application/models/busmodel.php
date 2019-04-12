@@ -1,18 +1,51 @@
 <?php 
    class busmodel extends CI_Model {
 
-/*
-    var $table = 'routetbl';
-    var $column_order = array('r_slno','start_place','via_place','end_place'); //set column field database for datatable orderable
-    var $column_search = array('r_slno','start_place','via_place','end_place'); //set column field database for datatable searchable just firstname , lastname , address are searchable
-    var $order = array('r_slno' => 'desc'); // default order 
+
+    var $table = 'bustimeassigntbl';
+    var $column_order = array('journey_start_time','journey_end_time','place','bus_no'); //set column field database for datatable orderable
+    var $column_search = array('journey_start_time','journey_end_time','place','bus_no'); //set column field database for datatable searchable just firstname , lastname , address are searchable
+    var $order = array('journey_start_time' => 'desc'); // default order 
   
-	*/
+	
       function __construct() { 
          parent::__construct(); 
+         
       } 
 
-/*
+
+
+  //generate dataTable serverside method
+  function get_all_product() {
+      $this->datatables->select('b_slno,journey_start_time,journey_end_time,place,bus_no');
+      $this->datatables->from('bustimeassigntbl');
+      $this->datatables->join('bustbl','f_b_slno=b_slno');
+      $this->datatables->join('busrouteassigntbl','f_bt_slno=bt_slno');
+      $this->datatables->join('routetbl','f_r_slno=r_slno');
+      $this->datatables->group_by('bus_no');
+      /*$this->datatables->add_column('view', '<a href="javascript:void(0);" class="edit_record btn btn-info" data-code="$1" data-name="$2" data-price="$3" data-category="$4">Edit</a>  <a href="javascript:void(0);" class="delete_record btn btn-danger" data-code="$1">Delete</a>','b_slno,journey_start_time,journey_end_time,bus_no');*/
+      return $this->datatables->generate();
+  }
+
+
+  public function get_stops($bus_no)
+       {
+         $this->get_stops_query($bus_no);
+         $query = $this->db->get();
+          return $query->result();
+       }
+  public function get_stops_query($bus_no)
+       {
+
+         $this->db->select('place');
+      $this->db->from($this->table);
+      $this->db->join('bustbl','f_b_slno=b_slno');
+      $this->db->join('busrouteassigntbl','f_bt_slno=bt_slno');
+      $this->db->join('routetbl','f_r_slno=r_slno');
+      $this->db->where('bus_no='.$bus_no);
+
+       }
+
   public function get_datatables()
        {
            $this->_get_datatables_query();
@@ -25,7 +58,19 @@
  private function _get_datatables_query()
       {
          
+      $this->db->select('b_slno,journey_start_time,journey_end_time,place,bus_no');
+      $this->db->from($this->table);
+      $this->db->join('bustbl','f_b_slno=b_slno');
+      $this->db->join('busrouteassigntbl','f_bt_slno=bt_slno');
+      $this->db->join('routetbl','f_r_slno=r_slno');
+      $this->db->group_by('bus_no');
+
+
+      /*
         $this->db->from($this->table);
+        $this->db->join('busrouteassigntbl','f_r_slno=r_slno');
+        $this->db->group_by('busrouteassigntbl.f_bt_slno');*/
+
  
         $i = 0;
      
@@ -75,7 +120,7 @@
        }
 
 
-*/
+
 
           public function addbus($data) { 
          if ($this->db->insert("bustbl", $data)) { 

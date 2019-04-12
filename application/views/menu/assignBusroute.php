@@ -40,7 +40,7 @@
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
-
+ <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <!-- Site wrapper -->
@@ -214,6 +214,7 @@ $this->load->view('components/sidebarcontroller');
 <script src="<?php echo base_url(); ?>public/plugins/select2/select2.full.min.js"></script>
 <!-- bootstrap time picker -->
 <script src="<?php echo base_url(); ?>public/plugins/timepicker/bootstrap-timepicker.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <script>
   $(function () {
     //Initialize Select2 Elements
@@ -243,12 +244,12 @@ $('.add_btn').click(function(){
                        console.log(response);
                        
                         //console.log(response.status);
-                      /*  if(response==true) //if success close modal and reload ajax table
+                        if(response==true) //if success close modal and reload ajax table
                           {                     
                            toastr.success('Added Successfully..!!', 'Success Alert', {timeOut: 2000});
                            //$('#assignbinmemberform')[0].reset();
-                             $('#bin_number').val('0').trigger("change");
-                             $("#member").multiselect('deselectAll', false);
+                             $('#busno').val('0').trigger("change");
+                             $("#routes").multiselect('deselectAll', false);
                             
                                   //$("#bin_number")[0].selectedIndex = 0;
                             
@@ -259,7 +260,7 @@ $('.add_btn').click(function(){
                             toastr.success('Some Error Happened..!!', 'Danger Alert', {timeOut: 2000});
 
                           }
-*/                         
+                        
                        
                         },
                         error: function(xhr, textStatus, error) {

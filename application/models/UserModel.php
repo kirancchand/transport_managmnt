@@ -1,13 +1,18 @@
 <?php 
    class UserModel extends CI_Model {
 
+    /*var $table = 'usertbl';
+    var $column_order = array('slno','emailid','password'); //set column field database for datatable orderable
+    var $column_search = array('slno','emailid','password'); //set column field database for datatable searchable just firstname , lastname , address are searchable
+    var $order = array('slno' => 'desc'); // default order 
+	*/
     var $table = 'usertbl';
     var $column_order = array('slno','emailid','password'); //set column field database for datatable orderable
     var $column_search = array('slno','emailid','password'); //set column field database for datatable searchable just firstname , lastname , address are searchable
     var $order = array('slno' => 'desc'); // default order 
-	
       function __construct() { 
          parent::__construct(); 
+         
       }
 
 
@@ -72,29 +77,6 @@
            $this->db->from($this->table);
            return $this->db->count_all_results();
        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
        
    
       public function register($data) { 

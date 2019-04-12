@@ -34,7 +34,10 @@
           </a>
           <ul class="treeview-menu">
             <li>
-              <a href="<?php echo site_url('menudata/trial'); ?>"><i class="fa fa-circle-o"></i>Trial</a>
+              <a href="<?php echo site_url('menudata/singletable'); ?>"><i class="fa fa-circle-o"></i>Single table</a>
+            </li>
+            <li>
+              <a href="<?php echo site_url('menudata/multipletable'); ?>"><i class="fa fa-circle-o"></i>Multiple table</a>
             </li>
             <li>
               <a href="<?php echo site_url('menu/add_bus_no'); ?>"><i class="fa fa-circle-o"></i> Add Bus No</a></li>
